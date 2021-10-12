@@ -455,9 +455,9 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
             case '\ud83d\udce3 Акции':
                 console.log('Акции')
                 bot.sendPhoto(
-                    msg.chat.id, './menu_img/bar.jpg'
+                    msg.chat.id, './menu_img/recom.jpg'
                 );
-                bot.sendMessage(chatId, `1. При одновременном заказе двух кальянов\nКаждый по 600 рублей\n\n2. С 12:00 До 16:00 кальян 500\n\n3. В день рождения СКИДКА на кальяны 20%\n\n4. КОМБО\n\t\t\t\t2 бокала вина или 2 бутылки пива\n\t\t\t\tКальян\n\t\t\t\t1000 рублей`)
+                bot.sendMessage(chatId, `С 12:00 До 16:00 кальян 500 р.\n\nВ день рождения СКИДКА на кальяны 20%\n\nКОМБО\n\tКальян + 2 бокала вина - 1000 р.\n\tКальян + 3 бутылки пива - 1000 р`)
                 review_tungler_anonim = false
                 review_tungler = false
                 break
