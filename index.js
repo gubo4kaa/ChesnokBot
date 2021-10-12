@@ -4,7 +4,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const _ = require('lodash');
-const token = '2060417710:AAEsehwBSypT3EFe44qH6OPBrZmKLBm-_BI';//токен
+const token = '';//токен
 //Клавиатуры
 const key_back = [//Клава главного меню
     [
