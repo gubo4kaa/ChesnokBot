@@ -1,6 +1,6 @@
-// setInterval(() => {//Ежедневная очистка списков
-//     resetArr()
-// }, 20000);
+setInterval(() => {//Ежедневная очистка списков
+    resetArr()
+}, 86400000);
 const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const _ = require('lodash');
@@ -74,7 +74,7 @@ const key_admin = [//Клава админа
     ],
     [
         {
-            text: 'Колл. игр'
+            text: 'Статист. игр'
         },
         {
             text: 'Игры'
@@ -137,6 +137,8 @@ let arrTextreviewLast = [];//Список поледних 10 отзывов
 let gameUsersPresent = {};// Объект игравших сегдня челов*
 let gameCaunterToday = 0;//Счётчик игравших сегодня людей
 let gameCaunter = 0;//Счётчик игр за всё время
+let gameCaunterBingoToday = 0;//Колличество призов за сегодня
+let gameCaunterBingo = 0;//Колличество призов за всё время
 let arrPresent = [];// Выигранные призы
 let arrTunglerReview = [];// Список для переключателя ревью
 let arrReviewNamber = [0,0,0,0,0]//Список Колличества отзывов по смайликам
@@ -215,7 +217,7 @@ function randomGame(a)  {
     // console.log(user_name)
     let randomNamberGame = Math.floor(Math.random() * 100);
     let randomNamberGameVin = Math.floor(Math.random() * 100);
-    if (randomNamberGameVin >=1 && randomNamberGameVin <=50) {
+    if (randomNamberGameVin >=1 && randomNamberGameVin <=70) {
         
         bot.sendMessage(a.chat.id, `Звук крутящейся рулетки...`)
         
@@ -226,7 +228,14 @@ function randomGame(a)  {
             bot.sendMessage(a.chat.id, `...`)
         }, 2000);
         setTimeout(() => {
-            bot.sendMessage(a.chat.id, `Вы выграли ${gameUsersPresent[user_name]}`)
+            if (gameUsersPresent[user_name] === 'на сегодня только хорошее настроение') {
+                bot.sendMessage(a.chat.id, `Вы выграли ${gameUsersPresent[user_name]}`)
+            } else {
+                bot.sendMessage(a.chat.id, `Вы выграли ${gameUsersPresent[user_name]}\n ваш идентификатор: ${a.chat.id}`)
+                gameCaunterBingoToday ++
+                gameCaunterBingo ++
+            }
+           
         }, 3000);
         if (randomNamberGame >=0 && randomNamberGame <=10) {
             let present = 'Авторский чай 700мл'
@@ -249,7 +258,7 @@ function randomGame(a)  {
             arrPresent.push(present)
             gameUsersPresent[user_name] = present
         } else if (randomNamberGame >=36 && randomNamberGame <= 40) {
-            let present = 'Виски с колой или Бутылка пива'
+            let present = 'Виски с колой или Бутылку пива'
             arrPresent.push(present)
             gameUsersPresent[user_name] = present
         } else if (randomNamberGame >=41 && randomNamberGame <= 45) {
@@ -366,8 +375,8 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
                     }}
                 )
                 break
-            case 'Колл. игр':
-                bot.sendMessage(chatId, `Колл. игр за сегодня: ${gameCaunterToday}\nКолл. игр за всё время: ${gameCaunter}`,
+            case 'Статист. игр':
+                bot.sendMessage(chatId, `Колл. игр за сегодня: ${gameCaunterToday}\nКолл. игр за всё время: ${gameCaunter}\nКолл. призов за всё время: ${gameCaunterBingo}\nКолл. призов за всё время: ${gameCaunterBingoToday}`,
                     {reply_markup: {
                         keyboard: key_admin
                     }}
@@ -446,7 +455,7 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
             case '\ud83d\udd67 Бронь':
                 console.log('бронь')
                 await bot.sendPhoto(
-                    msg.chat.id, './menu_img/chesnokShema.png'
+                    msg.chat.id, './menu_img/chesnokShema.jpg'
                 );
                 await bot.sendMessage(chatId, `Столик можете забронировать по номеру \nТел. +7(836) 230-83-48`)
                 review_tungler_anonim = false
@@ -454,10 +463,10 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
                 break  
             case '\ud83d\udce3 Акции':
                 console.log('Акции')
-                bot.sendPhoto(
+                await bot.sendPhoto(
                     msg.chat.id, './menu_img/recom.jpg'
                 );
-                bot.sendMessage(chatId, `С 12:00 До 16:00 кальян 500 р.\n\nВ день рождения СКИДКА на кальяны 20%\n\nКОМБО\n\tКальян + 2 бокала вина - 1000 р.\n\tКальян + 3 бутылки пива - 1000 р`)
+                await bot.sendMessage(chatId, `С 12:00 До 16:00 кальян 500 р.\n\nВ день рождения СКИДКА на кальяны 20%\n\nКОМБО\n\tКальян + 2 бокала вина - 1000 р.\n\tКальян + 3 бутылки пива - 1000 р`)
                 review_tungler_anonim = false
                 review_tungler = false
                 break
@@ -530,6 +539,7 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
 
 
 function resetArr() {//Функция очистки списков
+    gameCaunterBingoToday = 0;
     gameCaunterToday = 0;
     arrTodayUseersReview.length = 0;
     var props = Object.getOwnPropertyNames(gameUsersPresent);
