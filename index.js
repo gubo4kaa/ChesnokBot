@@ -4,7 +4,7 @@ setInterval(() => {//Ежедневная очистка списков
 const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const _ = require('lodash');
-const token = '';//токен
+const token = '2060417710:AAEsehwBSypT3EFe44qH6OPBrZmK';//токен
 //Клавиатуры
 const key_back = [//Клава главного меню
     [
