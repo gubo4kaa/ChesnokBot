@@ -231,7 +231,7 @@ function randomGame(a)  {
             if (gameUsersPresent[user_name] === 'на сегодня только хорошее настроение') {
                 bot.sendMessage(a.chat.id, `Вы выграли ${gameUsersPresent[user_name]}`)
             } else {
-                bot.sendMessage(a.chat.id, `Вы выграли ${gameUsersPresent[user_name]}\n ваш идентификатор: ${a.chat.id}`)
+                bot.sendMessage(a.chat.id, `Вы выграли ${gameUsersPresent[user_name]}\nКод выйгрыша: ${a.chat.id}`)
                 gameCaunterBingoToday ++
                 gameCaunterBingo ++
             }
@@ -398,7 +398,7 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
                         keyboard: key_admin
                     }}
                 )
-                arrReviev10.length = 0
+                    
                 break
             case 'Статистика оценок':
                 readStatisticSmileGame()
