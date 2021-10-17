@@ -398,7 +398,7 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
                         keyboard: key_admin
                     }}
                 )
-                
+                arrReviev10.length = 0
                 break
             case 'Статистика оценок':
                 readStatisticSmileGame()
