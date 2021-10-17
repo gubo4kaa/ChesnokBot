@@ -4,7 +4,7 @@ setInterval(() => {//Ежедневная очистка списков
 const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const _ = require('lodash');
-const token = '2060417710:AAEsehwBSypT3EFe44qH6OPBrZmK';//токен
+const token = '2060417710:AAEsehwBSypT3EFe44qH6OPBrZmKLBm-_BI';//токен
 //Клавиатуры
 const key_back = [//Клава главного меню
     [
@@ -106,11 +106,11 @@ function saveData(a) {
     
 }
 
-
 function readStatisticSmileGame() {
     let jsonObjSmile = fs.readFileSync('statisticSmaile.json')
     arrReviewNamber = JSON.parse(jsonObjSmile);
 }
+
 function saveStatisticSmileGame() {
     let StatisticSmileGameJson = JSON.stringify(arrReviewNamber)
     fs.writeFile('statisticSmaile.json', StatisticSmileGameJson,function(){})
@@ -128,7 +128,9 @@ function arrReviev10(a) {
     for(i = 1;i <= 9; i++) {
         a.push(arrTextreview[arrTextreview.length - i])
     }
+    
 }
+
 //Все списки и переменные
 let arrUsers = [];//Список юзеров бота
 let arrTodayUseersReview = [];//Юзеры которые сегодня оставили отзыв*
@@ -160,9 +162,8 @@ function reviewFuncNamber(a) {
     readStatisticSmileGame()
     if (arrTodayUseersReview.includes(a.chat.id) === false) {
         saveData(a)
-        // fs.writeFileSync('users.json', arrUsers)
-        // console.log(usersJson)
-        console.log(arrUsers)
+        
+        
     }
     switch (a.text) {
         case '\ud83d\ude21':
@@ -214,7 +215,7 @@ function randomGame(a)  {
         saveData(a)
     }
     let user_name = a.from.id; 
-    // console.log(user_name)
+    
     let randomNamberGame = Math.floor(Math.random() * 100);
     let randomNamberGameVin = Math.floor(Math.random() * 100);
     if (randomNamberGameVin >=1 && randomNamberGameVin <=70) {
@@ -282,7 +283,7 @@ function randomGame(a)  {
         } 
         gameCaunterToday = gameCaunterToday + 1;
         gameCaunter = gameCaunter + 1
-        // console.log(gameUsersPresent) 
+        
     } else {
         bot.sendMessage(a.chat.id, `Звук крутящейся рулетки...`)
         setTimeout(() => {
@@ -299,7 +300,7 @@ function randomGame(a)  {
     }
     gameCaunterToday = gameCaunterToday + 1;
     gameCaunter = gameCaunter + 1
-    // console.log(gameUsersPresent)   
+      
 }
 
 //Рассылка
@@ -313,7 +314,7 @@ const bot = new TelegramBot(token, {
 bot.on('message', async (msg) => { //Превью сообщение и клавиатура
     readData(msg)
     const chatId = msg.chat.id; 
-    console.log(msg.text)
+    
     if (review_tungler === true){
         console.log('я в кейсе с отзывом')
         switch(msg.text) {
@@ -344,9 +345,7 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
         readReview()
         arrTodayUseersReview.push(msg.chat.id)
         arrTextreview.push(msg.text)
-        
         saveReview()
-        deleteUsers(arrTunglerReview, chatId)
         bot.sendMessage (chatId , `Cпасибо за отзыв, \nПриятного отдыха!`,{
             parse_mode: 'Markdown',
             reply_markup: {
@@ -354,8 +353,7 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
             }
         })
         deleteUsers(arrTunglerReview,chatId)
-        console.log(arrTextreview)
-        console.log(arrTextreviewLast)   
+          
     } else if (arrAdmin.includes(msg.chat.id)){
         //Админ
         switch(msg.text) {
@@ -393,12 +391,14 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
             case 'Отзывы':
                 bot.sendDocument(chatId,'./review.json')
                 arrReviev10(arrTextreviewLast)
+                
                 bot.sendMessage(chatId, `Последние 10 отзывов: ${arrTextreviewLast}`,
                     {reply_markup: {
                         keyboard: key_admin
                     }}
                 )
-                    
+                arrTextreviewLast.length = 0
+                
                 break
             case 'Статистика оценок':
                 readStatisticSmileGame()
@@ -493,10 +493,10 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
             case 'Крутить рулетку':
                 if (gameOn === true) {
                     if (gameTungler.includes(msg.chat.id)) {
-                        console.log(gameTungler)
+                        
                         randomGame(msg)
                         deleteUsers(gameTungler,msg.chat.id)
-                        console.log(gameTungler)
+                        
                     } else {
                         bot.sendMessage(chatId, `Вы уже играли сегодня`)
                     }
