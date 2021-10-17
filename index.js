@@ -346,6 +346,7 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
         arrTodayUseersReview.push(msg.chat.id)
         arrTextreview.push(msg.text)
         saveReview()
+        deleteUsers(arrTunglerReview,chatId)
         bot.sendMessage (chatId , `Cпасибо за отзыв, \nПриятного отдыха!`,{
             parse_mode: 'Markdown',
             reply_markup: {
@@ -353,7 +354,6 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
             }
         })
         deleteUsers(arrTunglerReview,chatId)
-          
     } else if (arrAdmin.includes(msg.chat.id)){
         //Админ
         switch(msg.text) {
