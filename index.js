@@ -493,10 +493,8 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
             case 'Крутить рулетку':
                 if (gameOn === true) {
                     if (gameTungler.includes(msg.chat.id)) {
-                        
                         randomGame(msg)
                         deleteUsers(gameTungler,msg.chat.id)
-                        
                     } else {
                         bot.sendMessage(chatId, `Вы уже играли сегодня`)
                     }
@@ -522,8 +520,6 @@ bot.on('message', async (msg) => { //Превью сообщение и клав
                     review_tungler_anonim = false
                     review_tungler = true 
                 }
-                    
-                    
                 break
             default: 
             bot.sendMessage (chatId , `Доброго времени суток, вы находитесь в Телеграм Боте кальянной \n*Chesnok 2.0*`,{
